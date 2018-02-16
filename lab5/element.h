@@ -1,7 +1,7 @@
 #include "student.h"
 #ifndef _STUDENTS
 #define _STUDENTS
-	typedef struct element{
+typedef struct element{
 	key k ;
 }element;
 

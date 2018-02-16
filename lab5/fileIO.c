@@ -2,6 +2,7 @@
 #include "student.h"
 #include <stdlib.h>
 
+
 element* readFileAndStore(char* filename , int noOfRecords){
 	element* students = (element*)malloc(noOfRecords * sizeof(element));
 	FILE* ifp = fopen(filename,"r");
