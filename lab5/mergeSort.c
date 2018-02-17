@@ -1,5 +1,4 @@
 #include "element.h"
-#include "mergeSort.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -54,28 +53,16 @@ int min(int a, int b){
 	return (a<b)?a:b;
 }
 
-void mergeSortItr(element* ls,int low , int high){
-	int n = high - low + 1 ;
-	element* ls_temp = (element*)malloc(sizeof(element)*(n));
-	int j, slSz;
-	for(slSz = 1,j=0 ; slSz < n ;slSz*=2,j++ ){
-	if(j%2==0){
-	element *arrL_start=ls+low, *arrR_start=ls+low+slSz;
-		for(;arrR_start <= ls+high;arrL_start+=2*slSz, arrR_start+=2*slSz){	
-			merge(arrL_start , slSz , arrR_start , min(slSz,ls+high-arrR_start) , ls_temp+(arrL_start-ls));
-		}
+
+void mergeSortItr(element *ls , int low , int high){
+	int size = high - low + 1 ;
+	for( int slSz = 1 ; slSz < size ; slSz*=2){
+		int no = (size/(2*slSz));
+		for(int i = 0 ; i < no ; i++){
+			element* lh = ls + low + 2*slSz*i ;
+			element* rh = ls + low +(2*i + 1)*slSz ;
+			element* ls_temp = (element*)malloc(sizeof(element)*(min(2*slSz,size - 2*slSz)));
+			merge(lh,slSz,rh,min(slSz,size-(2*i + 1)*slSz),ls_temp);
+			memcpy(lh,ls_temp,sizeof(element)*min(2*slSz,size - 2*slSz));
 	}
-	else{
-		element *arrL_start=ls_temp+low, *arrR_start=ls_temp+low+slSz;
-		for(;arrR_start <= ls_temp+high;arrL_start+=2*slSz, arrR_start+=2*slSz){	
-			merge(arrL_start , slSz , arrR_start , min(slSz,ls+high-arrR_start) , ls+(arrL_start-ls_temp));
-		}
-	}
-	printf("ls->\n");
-	printStudents(ls,n);
-	printf("ls_temp->\n");
-	printStudents(ls_temp,n);
-	}
-	if(j%2==0)
-		memcpy(ls,ls_temp,sizeof(element)*n);
 }
